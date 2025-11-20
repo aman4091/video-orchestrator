@@ -1,0 +1,15 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.env
+.env.local
+token.pickle
+credentials.json
+*.log
+venv/
+env/
+.vscode/
+.idea/
+nul
+*.backup*
