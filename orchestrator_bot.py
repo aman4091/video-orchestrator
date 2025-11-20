@@ -151,8 +151,8 @@ class OrchestratorBot:
                 replace_existing=True
             )
 
-            self.scheduler.start()
-            logger.info("✅ Scheduler started with 4 jobs")
+            # Don't start here - will be started by Application's post_init
+            logger.info("Scheduler jobs configured (4 jobs)")
 
         except Exception as e:
             logger.error(f"Scheduler setup error: {e}")
@@ -527,6 +527,13 @@ class OrchestratorBot:
 
             # Setup scheduler
             self.setup_scheduler()
+
+            # Add post_init callback to start scheduler
+            async def post_init(app):
+                self.scheduler.start()
+                logger.info("Scheduler started with 4 jobs")
+
+            self.application.post_init = post_init
 
             # Start polling
             logger.info("Bot polling started")
