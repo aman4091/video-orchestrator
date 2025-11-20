@@ -530,7 +530,7 @@ class OrchestratorBot:
 
             # Start polling
             logger.info("Bot polling started")
-            await self.application.run_polling(drop_pending_updates=True)
+            self.application.run_polling(drop_pending_updates=True)
 
         except Exception as e:
             logger.error(f"Run error: {e}")
@@ -539,4 +539,4 @@ class OrchestratorBot:
 
 if __name__ == "__main__":
     bot = OrchestratorBot()
-    asyncio.run(bot.run())
+    bot.run()
