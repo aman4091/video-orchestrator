@@ -517,7 +517,7 @@ class OrchestratorBot:
     # RUN
     # ================================================================
 
-    async def run(self):
+    def run(self):
         """Start the bot"""
         try:
             logger.info("Starting Orchestrator Bot...")

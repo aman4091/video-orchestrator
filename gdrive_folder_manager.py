@@ -28,13 +28,24 @@ class GDriveFolderManager:
     def _initialize_service(self):
         """Initialize Google Drive API service"""
         try:
+            # Try to load from base64 environment variable first
+            token_base64 = os.getenv('GDRIVE_TOKEN_BASE64')
+            if token_base64:
+                import base64
+                token_data = base64.b64decode(token_base64)
+                creds = pickle.loads(token_data)
+                self.service = build('drive', 'v3', credentials=creds)
+                logger.info("✅ Google Drive service initialized from ENV")
+                return
+
+            # Fallback to file
             if os.path.exists(self.token_path):
                 with open(self.token_path, 'rb') as token:
                     creds = pickle.load(token)
                     self.service = build('drive', 'v3', credentials=creds)
-                    logger.info("Google Drive service initialized")
+                    logger.info("✅ Google Drive service initialized from file")
             else:
-                logger.error(f"Token file not found: {self.token_path}")
+                logger.warning(f"⚠️ Token not found - Google Drive features disabled")
         except Exception as e:
             logger.error(f"Error initializing Drive service: {e}")
 
