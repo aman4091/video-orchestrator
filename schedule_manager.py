@@ -624,9 +624,6 @@ class ReminderManager:
                 lines.append(f"  Video {v_num}: Script {script_status} | Thumbnail {thumb_status}")
 
         # Add time remaining
-        days, hours, mins = await self.schedule_mgr.calculate_time_remaining(target_date)
-        if days > 0 or hours > 0:
-            lines.append(f"\n⏰ Time Left: {days}d {hours}h {mins}m")
 
         lines.append("\nUse /mark_complete to update status")
 
