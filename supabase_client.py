@@ -21,16 +21,19 @@ class SupabaseClient:
     def __init__(self, url: Optional[str] = None, key: Optional[str] = None):
         """Initialize Supabase client with URL and anon key"""
         self.url = url or os.getenv("SUPABASE_URL")
-        self.key = key or os.getenv("SUPABASE_ANON_KEY")
+        self.key = key or os.getenv("SUPABASE_KEY") or os.getenv("SUPABASE_ANON_KEY")
 
         if not self.url or not self.key:
             print("⚠️ Supabase credentials not set. Use /set_supabase_url and /set_supabase_key commands.")
             self.client = None
+            self.supabase = None
         else:
             try:
                 self.client: Client = create_client(self.url, self.key)
+                self.supabase = self.client  # Compatibility alias
                 print("✅ Supabase client initialized")
             except Exception as e:
+                self.supabase = None
                 print(f"❌ Supabase connection error: {e}")
                 self.client = None
 
